@@ -5,7 +5,10 @@ RSpec.describe RoomPhoto, type: :model do
     before do
       hotel = Hotel.new(name: "Danny's Hotel", address: 'Nairobi, KENYA')
       room = Room.new(
-        description: 'Full furnished room with all facilites located near to hills with beautiful panoramic view', price_per_night: 20, hotel:
+        description: 'Full furnished room with all facilites
+                      located near to hills with beautiful
+                      panoramic view',
+        price_per_night: 20, hotel:
       )
       @room_photo = RoomPhoto.new(photo_path: 'https://www.google.com', room:)
     end
