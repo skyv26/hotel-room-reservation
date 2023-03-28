@@ -5,5 +5,5 @@ class Room < ApplicationRecord
   has_many :services, through: :room_services , dependent: :destroy
 
   validates :description, presence: true
-  validates :price_per_night, presence: true, length: {greater_than: 0}
+  validates :price_per_night, presence: true, numericality: { greater_than_or_equal_to: 0}
 end
