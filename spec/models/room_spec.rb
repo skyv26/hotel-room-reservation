@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Room, type: :model do
   context 'validation and unit testing' do
     before do
-      @hotel = Hotel.new(name: "Danny's Hotel", address: "Nairobi, KENYA")
+      @hotel = Hotel.new(name: "Danny's Hotel", address: 'Nairobi, KENYA')
       @room = Room.new(description: 'Full furnished room with all facilites located near to hills with beautiful panoramic view')
     end
 
@@ -27,6 +27,5 @@ RSpec.describe Room, type: :model do
       @room.hotel = @hotel
       expect(@room).to_not be_valid
     end
-
   end
 end

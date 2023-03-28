@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Rtype, type: :model do
   context 'validation and unit tests' do
     before do
-      @rtype = Rtype.new()
+      @rtype = Rtype.new
     end
 
     it 'should results invalid without name' do
