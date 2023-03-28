@@ -72,3 +72,5 @@ end
 gem "pg", "~> 1.4"
 
 gem "rubocop", "~> 1.48"
+
+gem "rspec-rails", "~> 6.0"
