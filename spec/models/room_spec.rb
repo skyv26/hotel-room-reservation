@@ -21,5 +21,12 @@ RSpec.describe Room, type: :model do
       @room.hotel = @hotel
       expect(@room).to be_valid
     end
+
+    it 'should results invalid because price_per_night should be positive' do
+      @room.price_per_night = -20
+      @room.hotel = @hotel
+      expect(@room).to_not be_valid
+    end
+
   end
 end
