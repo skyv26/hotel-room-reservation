@@ -12,8 +12,11 @@ class Api::V1::RoomsController < ApplicationController
   end
 
   def create
-    @room = Room.new(room_params)
+    @room = Room.new(room_params.except('photos_array'))
     if @room.save
+      params["photos_array"].each do |obj|
+        RoomPhoto.create(photo_path: obj, room_id: @room.id)
+      end
       render json: { message: 'Room Added Successfully', status: :created, response_code: 201}
     else
       puts "#{@room.errors.messages}"
@@ -44,6 +47,6 @@ class Api::V1::RoomsController < ApplicationController
   end
 
   def room_params
-    params.permit(:description, :price_per_night, :hotel_id)
+    params.permit(:description, :price_per_night, :hotel_id, :photos_array)
   end
 end
