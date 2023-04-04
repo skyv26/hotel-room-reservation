@@ -12,15 +12,27 @@ class Api::V1::RoomsController < ApplicationController
   end
 
   def create
-    @room = Room.new(room_params.except('photos_array'))
-    if @room.save
-      params["photos_array"].each do |obj|
-        RoomPhoto.create(photo_path: obj, room_id: @room.id)
+    ActiveRecord::Base.transaction do
+      @room = Room.new(room_params.except(:photos, :type, :services))
+      params[:photos].each do |img_path|
+       @room_photos =  RoomPhoto.new(photo_path: img_path, room_id: @room.id)
       end
-      render json: { message: 'Room Added Successfully', status: :created, response_code: 201}
-    else
-      puts "#{@room.errors.messages}"
-      render json: { message: "All fields are required", status: :not_acceptable, response_code: 406, }
+      @room_type = RoomType.new(rtype_id: params[:type])
+      params[:services].each do |service_id|
+       @room_service = RoomService.new(services_id:, room_id: @room.id)
+      end
+     
+      begin
+        @room.save
+        @room_photos.save
+        @room_type.save
+        @room_service.save
+        render json: { message: 'Room Added Successfully', status: :created, response_code: 201}
+      rescue => exception
+        raise ActiveRecord::Rollback
+        puts "#{@room.errors.messages}"
+        render json: { message: "All fields are required", status: :not_acceptable, response_code: 406, }
+      end
     end
   end
 
@@ -47,6 +59,6 @@ class Api::V1::RoomsController < ApplicationController
   end
 
   def room_params
-    params.permit(:description, :price_per_night, :hotel_id, :photos_array)
+    params.permit(:description, :price_per_night, :hotel_id, :photos, :type, :services)
   end
 end
