@@ -75,3 +75,5 @@ gem 'rubocop', '~> 1.48'
 group :development, :test do
   gem 'rspec-rails', '~> 6.0'
 end
+
+gem 'active_model_serializers', '~> 0.10.0'
