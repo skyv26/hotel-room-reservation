@@ -15,10 +15,12 @@ module Api
       def create
         @hotel = Hotel.new(hotel_params)
         if @hotel.save
-          render json: { message: 'Successfully added the Hotel', status: :created, response_code: 201 }
+          render json: { message: 'Successfully added the Hotel', status: :created, response_code: 200 }
         else
+          # render json: { message: "'name' or 'address' field is required !", status: :not_acceptable,
+          #                response_code: 406 }
           render json: { message: "'name' or 'address' field is required !", status: :not_acceptable,
-                         response_code: 406 }
+                         response_code: 406 }, status: :not_acceptable
         end
       end
 
