@@ -2,7 +2,6 @@ module Api
   module V1
     class HotelsController < ApplicationController
       protect_from_forgery with: :null_session
-      attr_reader :search_hotel
 
       def index
         @hotels = Hotel.all
@@ -16,9 +15,10 @@ module Api
       def create
         @hotel = Hotel.new(hotel_params)
         if @hotel.save
-          render json: { message: 'Successfully added the Hotel', status: :created, response_code: 201}
+          render json: { message: 'Successfully added the Hotel', status: :created, response_code: 201 }
         else
-          render json: { message: "'name' or 'address' field is required !", status: :not_acceptable, response_code: 406, }
+          render json: { message: "'name' or 'address' field is required !", status: :not_acceptable,
+                         response_code: 406 }
         end
       end
 
@@ -26,7 +26,7 @@ module Api
         @hotel = search_hotel
         render json: @hotel
       end
-      
+
       def update
         @hotel = search_hotel
         @hotel.update(hotel_params)
@@ -40,13 +40,11 @@ module Api
       end
 
       private
-      
+
       def search_hotel
-        begin
-          Hotel.find(params[:id])
-        rescue => exception
-          render json: { message: 'data not found !!', status: :not_found, response_code: 404 }
-        end
+        Hotel.find(params[:id])
+      rescue StandardError
+        render json: { message: 'data not found !!', status: :not_found, response_code: 404 }
       end
 
       def hotel_params

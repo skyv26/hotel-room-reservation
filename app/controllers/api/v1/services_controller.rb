@@ -1,7 +1,7 @@
 module Api
   module V1
     class ServicesController < ApplicationController
-      before_action :search_service, only: [:show, :update, :destroy]
+      before_action :search_service, only: %i[show update destroy]
       protect_from_forgery with: :null_session
 
       def index
@@ -16,9 +16,9 @@ module Api
       def create
         @service = Service.new(service_params)
         if @service.save
-          render json: { message: 'Service Added Successfully', status: :created, response_code: 201}
+          render json: { message: 'Service Added Successfully', status: :created, response_code: 201 }
         else
-          render json: { message: "All fields are required", status: :not_acceptable, response_code: 406, }
+          render json: { message: 'All fields are required', status: :not_acceptable, response_code: 406 }
         end
       end
 
@@ -40,8 +40,8 @@ module Api
 
       def search_service
         @service = Service.find(params[:id])
-        rescue ActiveRecord::RecordNotFound
-          render json: { message: 'Service not found', status: :not_found, response_code: 404 }
+      rescue ActiveRecord::RecordNotFound
+        render json: { message: 'Service not found', status: :not_found, response_code: 404 }
       end
 
       def service_params

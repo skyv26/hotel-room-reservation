@@ -1,5 +1,5 @@
 class Api::V1::RoomsController < ApplicationController
-  before_action :search_room, only: [:show, :update, :destroy]
+  before_action :search_room, only: %i[show update destroy]
   protect_from_forgery with: :null_session
 
   def index
@@ -14,10 +14,10 @@ class Api::V1::RoomsController < ApplicationController
   def create
     @room = Room.new(room_params)
     if @room.save
-        render json: { message: 'Room Added Successfully', status: :created, response_code: 201}
-    else 
-      puts "#{@room.errors.messages}"
-      render json: { message: "All fields are required", status: :not_acceptable, response_code: 406, }
+      render json: { message: 'Room Added Successfully', status: :created, response_code: 201 }
+    else
+      puts @room.errors.messages.to_s
+      render json: { message: 'All fields are required', status: :not_acceptable, response_code: 406 }
     end
   end
 
@@ -31,7 +31,7 @@ class Api::V1::RoomsController < ApplicationController
   #     params[:services].each do |service_id|
   #      @room_service = RoomService.new(services_id:, room_id: @room.id)
   #     end
-     
+
   #     begin
   #       @room.save
   #       @room_photos.save
@@ -40,7 +40,6 @@ class Api::V1::RoomsController < ApplicationController
   #       render json: { message: 'Room Added Successfully', status: :created, response_code: 201}
   #     rescue => exception
   #       raise ActiveRecord::Rollback
-  #       puts "#{@room.errors.messages}"
   #       render json: { message: "All fields are required", status: :not_acceptable, response_code: 406, }
   #     end
   #   end
@@ -64,8 +63,8 @@ class Api::V1::RoomsController < ApplicationController
 
   def search_room
     @room = Room.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      render json: { message: 'Room not found', status: :not_found, response_code: 404 }
+  rescue ActiveRecord::RecordNotFound
+    render json: { message: 'Room not found', status: :not_found, response_code: 404 }
   end
 
   def room_params
