@@ -68,6 +68,6 @@ class Api::V1::RoomsController < ApplicationController
   end
 
   def room_params
-    params.permit(:description, :price_per_night, :hotel_id, room_type_attributes: [:rtype])
+    params.permit(:description, :price_per_night, :hotel_id, room_type_attributes: [:id, :rtype_id])
   end
 end
