@@ -21,30 +21,6 @@ class Api::V1::RoomsController < ApplicationController
     end
   end
 
-  # def create
-  #   ActiveRecord::Base.transaction do
-  #     @room = Room.new(room_params.except(:photos, :type, :services))
-  #     params[:photos].each do |img_path|
-  #      @room_photos =  RoomPhoto.new(photo_path: img_path, room_id: @room.id)
-  #     end
-  #     @room_type = RoomType.new(rtype_id: params[:type])
-  #     params[:services].each do |service_id|
-  #      @room_service = RoomService.new(services_id:, room_id: @room.id)
-  #     end
-
-  #     begin
-  #       @room.save
-  #       @room_photos.save
-  #       @room_type.save
-  #       @room_service.save
-  #       render json: { message: 'Room Added Successfully', status: :created, response_code: 201}
-  #     rescue => exception
-  #       raise ActiveRecord::Rollback
-  #       render json: { message: "All fields are required", status: :not_acceptable, response_code: 406, }
-  #     end
-  #   end
-  # end
-
   def show
     render json: @room
   end
@@ -68,6 +44,6 @@ class Api::V1::RoomsController < ApplicationController
   end
 
   def room_params
-    params.permit(:description, :price_per_night, :hotel_id, room_type_attributes: [:id, :rtype_id])
+    params.permit(:description, :price_per_night, :hotel_id, room_services_attributes: [:id, :service_id], room_type_attributes: [:id, :rtype_id])
   end
 end
