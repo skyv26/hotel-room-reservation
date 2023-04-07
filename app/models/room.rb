@@ -6,7 +6,7 @@ class Room < ApplicationRecord
   has_one :rtype, through: :room_type, dependent: :destroy
   has_many :services, through: :room_services, dependent: :destroy
 
-  accepts_nested_attributes_for :room_type, allow_destroy: true
+  accepts_nested_attributes_for :room_services, :room_type, allow_destroy: true
 
   validates :description, presence: true
   validates :price_per_night, presence: true, numericality: { greater_than_or_equal_to: 0 }
