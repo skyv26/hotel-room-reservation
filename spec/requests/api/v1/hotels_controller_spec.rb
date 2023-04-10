@@ -45,7 +45,7 @@ RSpec.describe 'Api::V1::HotelsControllers', type: :request do
       it 'does not create a new hotel' do
         expect do
           post api_v1_hotels_path, params: { hotel: invalid_hotel_params }
-        end.not_to change { Hotel.count }
+        end.not_to(change { Hotel.count })
         expect(response).to have_http_status(406)
         expect(response.content_type).to include('application/json')
         expect(response.body).to include("'name' or 'address' field is required !")
