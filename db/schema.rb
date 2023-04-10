@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_22_103242) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_06_090824) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,24 +25,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_22_103242) do
     t.text "photo_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "room_id", null: false
+    t.bigint "room_id"
     t.index ["room_id"], name: "index_room_photos_on_room_id"
   end
 
   create_table "room_services", force: :cascade do |t|
-    t.bigint "room_id", null: false
     t.bigint "service_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "room_id"
     t.index ["room_id"], name: "index_room_services_on_room_id"
     t.index ["service_id"], name: "index_room_services_on_service_id"
   end
 
   create_table "room_types", force: :cascade do |t|
-    t.bigint "room_id", null: false
     t.bigint "rtype_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "room_id"
     t.index ["room_id"], name: "index_room_types_on_room_id"
     t.index ["rtype_id"], name: "index_room_types_on_rtype_id"
   end
@@ -69,10 +69,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_22_103242) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "room_photos", "rooms"
-  add_foreign_key "room_services", "rooms"
   add_foreign_key "room_services", "services"
-  add_foreign_key "room_types", "rooms"
   add_foreign_key "room_types", "rtypes"
-  add_foreign_key "rooms", "hotels"
+  add_foreign_key "rooms", "hotels", on_delete: :cascade
 end
